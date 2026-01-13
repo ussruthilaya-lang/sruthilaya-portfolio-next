@@ -1,6 +1,7 @@
 "use client";
 
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "@/components/layout/Navbar";
 import NeuralNetwork from "@/components/visuals/NeuralNetwork";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
@@ -42,6 +43,9 @@ export default function RootLayout({
             Built with intent. Optimized for impact.
           </p>
         </footer>
+
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
       </body>
     </html>
   );
