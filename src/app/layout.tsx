@@ -3,7 +3,6 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import NeuralNetwork from "@/components/visuals/NeuralNetwork";
-import MusicPlayer from "@/components/visuals/MusicPlayer";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import type { ReactNode } from "react";
 
