@@ -134,9 +134,7 @@ export default function Connect() {
                     {/* Closing Statement */}
                     <div className="text-center">
                         <p className="text-white/40 text-sm leading-relaxed">
-                            Not interested in surface-level work. Looking for
-                            teams that ship, iterate, and care about the
-                            craft.
+                            I value deep work and meaningful impact. Looking to join teams that ship, iterate, and care about the craft.
                         </p>
                     </div>
                 </motion.div>

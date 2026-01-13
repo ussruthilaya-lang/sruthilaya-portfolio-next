@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { ChevronDown, Github } from "lucide-react";
 
 export default function FeaturedProject() {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement | null>(null);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
     const isInView = useInView(ref, {
@@ -15,18 +15,6 @@ export default function FeaturedProject() {
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
-
-    const toggleVideo = () => {
-        if (!videoRef.current) return;
-
-        if (isPaused) {
-            videoRef.current.play();
-        } else {
-            videoRef.current.pause();
-        }
-
-        setIsPaused(!isPaused);
-    };
 
     return (
         <section
@@ -58,10 +46,9 @@ export default function FeaturedProject() {
                 >
                     {/* Video */}
                     <div
-                        className="relative h-80 bg-gradient-to-br from-emerald-950/50 to-black overflow-hidden group cursor-pointer"
+                        className="relative h-80 bg-gradient-to-br from-emerald-950/50 to-black overflow-hidden cursor-pointer"
                         onClick={() => {
                             if (!videoRef.current) return;
-
                             if (videoRef.current.paused) {
                                 videoRef.current.play();
                                 setIsPaused(false);
@@ -71,10 +58,8 @@ export default function FeaturedProject() {
                             }
                         }}
                     >
-                        {/* Ambient glow */}
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_50%)] pointer-events-none" />
 
-                        {/* Video */}
                         <video
                             ref={videoRef}
                             src="/videos/ProjectDemo.mp4"
@@ -86,32 +71,21 @@ export default function FeaturedProject() {
                             className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
                         />
 
-                        {/* Hover controls (only when paused) */}
+                        {/* Replay / Resume controls */}
                         {isPaused && (
-                            <div className="absolute inset-0 flex items-center justify-center gap-6 pointer-events-none">
-                                <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                    {/* Resume */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="flex gap-4">
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            if (!videoRef.current) return;
-                                            videoRef.current.play();
+                                            videoRef.current?.play();
                                             setIsPaused(false);
                                         }}
-                                        className="
-                        pointer-events-auto
-                        bg-black/60 backdrop-blur-md
-                        rounded-full p-3
-                        text-white/80 hover:text-white
-                        transition
-                        text-3xl
-                    "
+                                        className="pointer-events-auto bg-black/60 backdrop-blur-md rounded-full p-3 text-white/80 hover:text-white text-3xl"
                                         aria-label="Resume video"
                                     >
                                         ▶
                                     </button>
-
-                                    {/* Replay */}
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -120,14 +94,7 @@ export default function FeaturedProject() {
                                             videoRef.current.play();
                                             setIsPaused(false);
                                         }}
-                                        className="
-                        pointer-events-auto
-                        bg-black/60 backdrop-blur-md
-                        rounded-full p-3
-                        text-white/80 hover:text-white
-                        transition
-                        text-2xl
-                    "
+                                        className="pointer-events-auto bg-black/60 backdrop-blur-md rounded-full p-3 text-white/80 hover:text-white text-2xl"
                                         aria-label="Replay video"
                                     >
                                         ↺
@@ -136,7 +103,6 @@ export default function FeaturedProject() {
                             </div>
                         )}
 
-                        {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
                     </div>
 
@@ -150,7 +116,6 @@ export default function FeaturedProject() {
                             Turned unstructured public feedback into actionable product signals
                         </p>
 
-                        {/* Why This Mattered */}
                         <div className="mb-8">
                             <p className="text-sm text-white/40 uppercase tracking-wider mb-2">
                                 Why this mattered
@@ -158,58 +123,71 @@ export default function FeaturedProject() {
                             <p className="text-white/70 leading-relaxed max-w-2xl">
                                 Teams often react to loud feedback instead of meaningful signals.
                                 This system ingests noisy reputation data and surfaces structured
-                                insights that product and business teams can actually act on.
+                                insights teams can actually act on.
                             </p>
                         </div>
 
-                        {/* Tech Tags */}
+                        {/* Tech */}
                         <div className="flex flex-wrap gap-2 mb-8">
-                            {[
-                                "Python",
-                                "NLP",
-                                "Embeddings",
-                                "Clustering",
-                                "PostgreSQL",
-                                "Streamlit",
-                            ].map((tech, index) => (
-                                <span
-                                    key={index}
-                                    className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs text-white/50"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
+                            {["Python", "NLP", "Embeddings", "Clustering", "PostgreSQL", "Streamlit"].map(
+                                (tech) => (
+                                    <span
+                                        key={tech}
+                                        className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs text-white/50"
+                                    >
+                                        {tech}
+                                    </span>
+                                )
+                            )}
                         </div>
 
-                        {/* Expandable Architecture */}
-                        <div>
-                            <button
-                                onClick={() => setIsExpanded(!isExpanded)}
-                                className="group flex items-center gap-2 text-sm text-emerald-500 hover:text-emerald-400 transition-colors mb-4"
-                            >
-                                <span className="font-medium">
-                                    {isExpanded ? "Hide" : "View"} Architecture & Decisions
-                                </span>
-                                <ChevronDown
-                                    className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""
-                                        }`}
-                                />
-                            </button>
+                        {/* Architecture Toggle */}
+                        <button
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="flex items-center gap-2 text-sm text-emerald-500 hover:text-emerald-400 transition-colors mb-4"
+                        >
+                            <span className="font-medium">
+                                {isExpanded ? "Hide" : "View"} Architecture & Decisions
+                            </span>
+                            <ChevronDown
+                                className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""
+                                    }`}
+                            />
+                        </button>
 
-                            <motion.div
-                                initial={false}
-                                animate={{
-                                    height: isExpanded ? "auto" : 0,
-                                    opacity: isExpanded ? 1 : 0,
-                                }}
-                                transition={{ duration: 0.3 }}
-                                className="overflow-hidden"
-                            >
-                                <div className="p-6 bg-white/5 border border-white/10 rounded-lg space-y-4">
-                                    {/* Content unchanged */}
+                        {/* Expandable Content */}
+                        <motion.div
+                            initial={false}
+                            animate={{
+                                height: isExpanded ? "auto" : 0,
+                                opacity: isExpanded ? 1 : 0,
+                            }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            className="overflow-hidden"
+                        >
+                            <div className="p-6 bg-white/5 border border-white/10 rounded-lg space-y-6">
+                                <div>
+                                    <h4 className="text-sm font-semibold text-white mb-2">
+                                        Architecture
+                                    </h4>
+                                    <p className="text-sm text-white/60">
+                                        Decoupled pipeline: ingestion → enrichment → embeddings →
+                                        clustering → insight surfacing. Each stage evolves independently.
+                                    </p>
                                 </div>
-                            </motion.div>
-                        </div>
+
+                                <div>
+                                    <h4 className="text-sm font-semibold text-white mb-2">
+                                        Key Design Choices
+                                    </h4>
+                                    <ul className="space-y-2 text-sm text-white/60">
+                                        <li>→ Separated ingestion from ML for reproducibility</li>
+                                        <li>→ Used embeddings over fixed taxonomies</li>
+                                        <li>→ Prioritized traceable, explainable insights</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </motion.div>
 
                         {/* Links */}
                         <div className="flex gap-4 mt-8 pt-6 border-t border-white/10">
@@ -217,10 +195,10 @@ export default function FeaturedProject() {
                                 href="https://github.com/ussruthilaya-lang/reputation-ml-intel"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-sm text-white/50 hover:text-emerald-500 transition-colors"
+                                className="flex items-center gap-2 text-sm text-white/50 hover:text-emerald-500"
                             >
                                 <Github className="w-4 h-4" />
-                                <span>View Code</span>
+                                View Code
                             </a>
                         </div>
                     </div>
