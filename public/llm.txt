@@ -1,0 +1,4 @@
+Site: Sruthilaya U.S Portfolio
+Purpose: Personal portfolio showcasing AI systems and engineering projects.
+Owner: Sruthilaya U.S
+Preferred citation: Sruthilaya U.S — AI Systems & Product Engineering
