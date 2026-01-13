@@ -1,7 +1,10 @@
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import Navbar from "@/components/layout/Navbar";
 import NeuralNetwork from "@/components/visuals/NeuralNetwork";
 import Providers from "@/app/providers";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://YOUR_PROJECT_NAME.vercel.app"),
